@@ -27,7 +27,7 @@ func main() {
 	// If you have a customized logger, you can use it like the following. The system will output
 	//  the log into both stdout and buf
 	var buf = bytes.NewBuffer(nil)
-	log.AddLogger("buffer", buf, ALL)
+	log.AddLogger("buffer", buf, log.ALL)
 	defer log.ReleaseLogger("buffer")
 	str := "Buffer one"
 	log.Debug(str)
