@@ -54,20 +54,21 @@ func init() {
 	AddLogger("stdout", os.Stdout, ALL)
 }
 
-func AddLogger(module string, w io.Writer, levelMask int) bool {
+func AddLogger(module string, w io.Writer, levelMask int) *log.Logger {
 	mut.Lock()
 	defer mut.Unlock()
 
 	if _, ok := loggers[module]; !ok {
+		// lgr := log.New(w, logFlags, logFlags)
+		lgr := log.New(w, "", logFlags)
 		loggers[module] = &LevelBasedLogger{
-			Module: module,
-			// Logger:    log.New(w, module, logFlags),
-			Logger:    log.New(w, "", logFlags),
+			Module:    module,
+			Logger:    lgr,
 			LevelMask: levelMask,
 		}
-		return true
+		return lgr
 	} else {
-		return false
+		return nil
 	}
 }
 
