@@ -1,7 +1,7 @@
 // Package logo provides global logging methods so that multiple packages may
 // log to a single application-defined stream.
 //
-// If any logging methods are called before SetOutput is called, nothing will be outputted.
+// If any logging method is called before AddLogger/ReleaseLogger is called, nothing will be outputted.
 package logo
 
 import (
