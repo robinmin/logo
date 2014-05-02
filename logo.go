@@ -58,18 +58,14 @@ func AddLogger(module string, w io.Writer, levelMask int) *log.Logger {
 	mut.Lock()
 	defer mut.Unlock()
 
-	if _, ok := loggers[module]; !ok {
-		// lgr := log.New(w, logFlags, logFlags)
-		lgr := log.New(w, "", logFlags)
-		loggers[module] = &LevelBasedLogger{
-			Module:    module,
-			Logger:    lgr,
-			LevelMask: levelMask,
-		}
-		return lgr
-	} else {
-		return nil
+	// lgr := log.New(w, logFlags, logFlags)
+	lgr := log.New(w, "", logFlags)
+	loggers[module] = &LevelBasedLogger{
+		Module:    module,
+		Logger:    lgr,
+		LevelMask: levelMask,
 	}
+	return lgr
 }
 
 func ReleaseLogger(module string) bool {
@@ -85,6 +81,9 @@ func ReleaseLogger(module string) bool {
 }
 
 func write(msg string, level int) {
+	if level <= 0 {
+		return
+	}
 	for _, logger := range loggers {
 		if logger.LevelMask&level == level {
 			logger.Logger.Output(3, "["+levelStrings[level]+"] "+msg)
