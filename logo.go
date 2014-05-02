@@ -80,6 +80,14 @@ func ReleaseLogger(module string) bool {
 	}
 }
 
+func GetLogger(module string) *log.Logger {
+	if lgr, ok := loggers[module]; ok {
+		return lgr.Logger
+	} else {
+		return nil
+	}
+}
+
 func write(msg string, level int) {
 	if level <= 0 {
 		return
